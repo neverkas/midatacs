@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<head>
+</head>
+<body>
+<script src="js/libs/jquery-1.9.1.js"></script>
+<script src="js/libs/handlebars-1.0.0-rc.4.js"></script>
+<script src="js/libs/ember-1.0.0-rc.5.js"></script>
+<script src="js/libs/ember-data.js"></script>
+
+<script type="text/x-handlebars">
+{{outlet}}
+</script>
+
+<script type="text/x-handlebars" data-template-name="index">
+{{lista}}
+</script>
+
+<script type="text/javascript">
+App = Ember.Application.create();
+
+// Object
+App.Persona = Ember.Object.extend({
+	nombre: null,
+	edad: null,
+	datos: function(){
+		return this.get('nombre') + ' ' + this.get('edad');
+	}.property('nombre', 'edad')
+});
+
+// Controller
+App.IndexController = Ember.ArrayController.extend({
+	content: [],
+	lista: function(){
+		console.log(this.get('content'));
+		return this.get('content');
+	}.property('content', '@each.content').cacheable()
+});
+
+// Route
+App.IndexRoute = Ember.Route.extend({
+	deserialize: function(){
+		fn = function(){
+			App.Persona.create({nombre:'Pedrito', edad:15});
+		}
+		App.set('IndexController.content', this, fn);
+	}
+});
+
+</script>
+</body>
+</html>

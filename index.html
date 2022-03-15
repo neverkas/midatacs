@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:fb="http://www.facebook.com/2008/fbml">
+<head>
+<meta charset="utf-8">
+<title>MiDataCs.com - Consegui data facil</title>
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
+</head>
+<body>
+
+<script type="text/x-handlebars">
+{{outlet}}
+</script>
+
+<script type="text/x-handlebars" data-template-name="index">
+{{#each App.PostsController}}
+	{{view App.PostView}}
+{{/each}}
+</script>
+
+<script type="text/x-handlebars" data-template-name="post">
+	{{this.message}}
+</script>
+
+<script src="js/libs/jquery-1.9.1.js"></script>
+<script src="http://connect.facebook.net/en_US/all.js"></script>
+<script src="js/libs/handlebars-1.0.0-rc.4.js"></script>
+<script src="js/libs/ember-1.0.0-rc.5.js"></script>
+<script src="js/libs/ember-data.js"></script>
+<script src="js/libs/prototype.js"></script>
+<script>
+// http://www.sysgames.net/midatacs/js/libs/
+
+Storage.prototype.setObject = function(key, value) {
+    this.setItem(key, JSON.stringify(value));
+}
+ 
+Storage.prototype.getObject = function(key) {
+    var value = this.getItem(key);
+    return value && JSON.parse(value);
+}
+</script>
+<!--
+<script src="js/plugins/facebook.js"></script>
+-->
+<script src="js/application.js"></script>
+<!--
+<script type="text/javascript" src="http://www.sysgames.net/min/g=midatacs"></script>
+-->
+</body>
+</html>

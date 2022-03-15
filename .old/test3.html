@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<head>
+</head>
+<body>
+<script src="js/libs/jquery-1.9.1.js"></script>
+<script src="js/libs/handlebars-1.0.0-rc.4.js"></script>
+<script src="js/libs/ember-1.0.0-rc.5.js"></script>
+<script src="js/libs/ember-data.js"></script>
+<script type="text/x-handlebars">
+{{outlet}}
+</script>
+
+<script type="text/x-handlebars" data-template-name="index">
+{{#each App.PostsController}}	
+	{{view App.Item}} 
+{{/each}}
+</script>
+
+<script type="text/x-handlebars" data-template-name="item">
+    {{this.message}}    
+</script>
+
+<script type="text/javascript">
+App = Ember.Application.create();
+
+App.Store = DS.Store.extend({
+	revision:13,
+	adapter: DS.RESTAdapter.create({
+		bulkCommit: true, 
+		url: 'http://sysgames.net/midatacs/api'
+	})
+});
+
+// Model
+App.Post = DS.Model.extend({
+	message: DS.attr('string'),
+});
+
+// Controller
+App.PostsController = Ember.ArrayController.create({
+	content: [],
+});
+
+// Route
+App.IndexRoute = Ember.Route.extend({
+    deserialize: function(){
+        App.set('PostsController.content', [
+            {'message':'Mensaje del dia'}, 
+            {'message':'Mensaje de la tarde'}, 
+            {'message':'Mensaje de la noche'}
+        ]);
+       /* 
+        var num = 0;
+
+        var test = setInterval(function(){
+            num++;
+            App.get('PostsController.content').pushObject({'message':'prueba '+num});
+//            console.log('prueba');
+        },2500);
+     */   
+    }
+});
+
+// View
+App.IndexView = Ember.View.extend({
+});
+
+App.PostView = Ember.View.extend({
+    templateName:'post'
+});
+
+App.Item = Ember.View.extend({
+	templateName:'item',
+	tagName:'li'
+});
+
+</script>
+</body>
+</html>

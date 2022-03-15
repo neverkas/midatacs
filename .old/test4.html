@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<head>
+</head>
+<body>
+<script src="js/libs/jquery-1.9.1.js"></script>
+<script src="js/libs/handlebars-1.0.0-rc.4.js"></script>
+<script src="js/libs/ember-1.0.0-rc.5.js"></script>
+<script src="js/libs/ember-data.js"></script>
+<script type="text/x-handlebars">
+{{outlet}}
+</script>
+
+<script type="text/x-handlebars" data-template-name="index">
+{{view App.PostsView contentBinding="App.PostsController.content"}} 
+</script>
+
+<script type="text/x-handlebars" data-template-name="posts">
+test
+</script>
+
+<script type="text/javascript">
+App = Ember.Application.create();
+
+App.Store = DS.Store.extend({
+	revision:13,
+	adapter: DS.RESTAdapter.create({
+		bulkCommit: true, 
+		url: 'http://sysgames.net/midatacs/api'
+	})
+});
+
+// Model
+App.Post = DS.Model.extend({
+	message: DS.attr('string'),
+});
+
+// Controller
+App.PostsController = Ember.ArrayController.create({
+	content: [
+        {'message':'Mensaje del dia'}, 
+        {'message':'Mensaje de la tarde'}, 
+        {'message':'Mensaje de la noche'}
+    ],
+});
+
+// Route
+App.IndexRoute = Ember.Route.extend({
+    deserialize: function(){
+    }
+});
+
+// View
+App.IndexView = Ember.View.extend({
+});
+
+App.PostsView = Ember.View.extend({
+    templateName:'posts'
+});
+
+</script>
+</body>
+</html>
